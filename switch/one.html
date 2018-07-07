@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>One</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <style>
+     .i-switch{
+         position: relative;
+         height: 28px;
+         width: 60px;
+         border: 2px solid rgb(150, 145, 145);
+         background: rgb(150, 145, 145);
+         border-radius: 16px; 
+         cursor: pointer;   
+     }
+     .i-switch-opened{
+        border: 2px solid orangered;
+        background: orangered;
+        transition: all 0.5s linear;
+     }
+     .i-switch-large{
+         height: 32px;
+         width: 72px;
+     }
+     .i-switch-btn{
+         position: absolute;
+         left: 0;
+         top: 0;
+         height: 28px;
+         width: 28px;
+         border-radius: 50%;
+         background: white;
+         transform: left 0.1s linear;
+     }
+     .i-switch-btn-opened{
+            left:34px;
+        }
+        .opened{
+          text-align: left;
+          font-size: 16px;
+          line-height: 26px;
+          color:white;
+        }
+        /* .def-close{
+            display: none;
+        } */
+        .closed{
+          text-align: right;
+          font-size: 16px;
+          line-height: 26px;
+          color:white; 
+        }
+    </style>
+</head>
+<body>
+    <div id="app"> </div>
+</body>
+</html>
+<script>
+    Vue.component('iSwitch',{
+        props:{
+            value:Boolean,
+            size:String
+        },   
+        template:`
+           <div class='i-switch' :class="{'i-switch-opened':ivalue,'i-switch-large':size==='large'}" @click="ivalue=!ivalue">
+           <div v-show='value' :class="{'opened':ivalue}">开启</div>
+               <div class='i-switch-btn' :class="{'i-switch-btn-opened':ivalue}"></div>
+               <div v-show='!ivalue' :class="{'closed':!ivalue}">关闭</div>
+           </div>
+        `,
+        watch:{
+         value(val){
+            this.ivalue = val
+          },
+         ivalue(val){
+             this.$emit('input',val)    
+          }
+         },
+        data() {
+            return {
+                ivalue: this.value
+            }
+        },
+        
+    })
+     var vm = new Vue({
+      el:'#app',
+      template:`
+       <div class='app'>
+       switch status:{{test}}
+      <h4>standard switch</h4>
+          <i-switch v-model='test'/>  
+            <h4>large switch</h4>
+          <i-switch v-model='test' size='large'/>    
+       </div>    
+      `,
+      data:{
+        test:false,
+        size:''
+      }
+     });
+  
+     
+
+</script>
